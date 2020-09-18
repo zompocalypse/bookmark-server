@@ -1,5 +1,3 @@
-const {v4: uuid } = require('uuid');
-
 const bookmarks = [
   {
     id: 'd479b369-f37e-4e91-9ab6-eda979edb9d7',

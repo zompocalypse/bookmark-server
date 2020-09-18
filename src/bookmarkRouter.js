@@ -78,9 +78,9 @@ bookmarkRouter
         .send('Not found');
       
     }
-    bookmarks.splice(bookmarkIndex,1)
-    res.status(204).send('deleted')
-  })
+    bookmarks.splice(bookmarkIndex,1);
+    res.status(204).send('deleted');
+  });
     
   
 

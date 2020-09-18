@@ -66,7 +66,22 @@ bookmarkRouter
       return res.status(400,'Book id is not valid');
     }
     res.json(bookmark);
-  });
+  }) 
+  .delete((req,res) =>{
+    const{id}=req.params;
+
+    const bookmarkIndex = bookmarks.findIndex(bookmark => bookmark.id === id);
+    if (bookmarkIndex === -1) {
+      logger.error(`bookmark with id ${id} not found.`);
+      return res
+        .status(404)
+        .send('Not found');
+      
+    }
+    bookmarks.splice(bookmarkIndex,1)
+    res.status(204).send('deleted')
+  })
     
+  
 
 module.exports = bookmarkRouter;

@@ -61,9 +61,12 @@ bookmarkRouter
   .route('/:id')
   .get((req, res)=>{
     const{id}=req.params;
-    const bookmark= bookmarks.find(bookmark => bookmark.id === id);
+    const bookmark= bookmarks.find(bookmark => bookmark.id == id);
     if(!bookmark){
-      return res.status(400,'Book id is not valid');
+      logger.error(`bookmark with id ${id} not found`);
+      return res
+        .status(400)
+        .send('Book id is not valid');
     }
     res.json(bookmark);
   }) 

@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const validateBearerToken = require('./validateBearerToken');
 const errorHandler = require('./errorHandler');
-const bookmarkRouter = require('./bookmarkRouter');
+const bookmarksRouter = require('./bookmarkRouter');
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(cors());
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(validateBearerToken);
-app.use('/bookmarks', bookmarkRouter);
+app.use('/bookmarks', bookmarksRouter);
 
 app.get('/', (req, res) => {
   res.send('Use the /bookmarks endpoint');

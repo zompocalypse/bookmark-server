@@ -1,15 +1,20 @@
 const express = require('express');
-const bookmarkRouter = express.Router();
+const bookmarksRouter = express.Router();
 const logger = require('./logger');
 const { v4: uuid } = require('uuid');
+const BookmarksService = require('./bookmarks-service');
 
 const { bookmarks } = require('./dataStore');
 
-
-bookmarkRouter
+bookmarksRouter
   .route('/')
-  .get((req, res) =>
-    res.json(bookmarks))
+  .get((req, res, next) => {
+    BookmarksService.getAllBookmarks(req.app.get('db'))
+      .then(bookmarks => {
+        res.json(bookmarks);
+      })
+      .catch(next);
+  })
   .post(express.json(), (req, res) => {
     const { title, url, rating, desc } = req.body;
     if (!title) {
@@ -57,19 +62,20 @@ bookmarkRouter
   });
 
 
-bookmarkRouter
+bookmarksRouter
   .route('/:id')
-  .get((req, res)=>{
-    const{id}=req.params;
-    const bookmark= bookmarks.find(bookmark => bookmark.id == id);
-    if(!bookmark){
-      logger.error(`bookmark with id ${id} not found`);
-      return res
-        .status(400)
-        .send('Book id is not valid');
-    }
-    res.json(bookmark);
-  }) 
+  .get((req, res, next)=>{
+    BookmarksService.getById(req.app.get('db'), req.params.id)
+      .then(bookmark => {
+        if(!bookmark) {
+          return res.status(404).json({
+            error: { message: `Bookmark does not exist` }
+          });
+        }
+        res.json(bookmark);
+      })
+      .catch(next);
+  })
   .delete((req,res) =>{
     const{id}=req.params;
 
@@ -87,4 +93,4 @@ bookmarkRouter
     
   
 
-module.exports = bookmarkRouter;
+module.exports = bookmarksRouter;

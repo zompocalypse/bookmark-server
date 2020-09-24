@@ -21,16 +21,16 @@ describe('Bookmarks Endpoints', function() {
 
   afterEach('cleanup', () => db('bookmarks').truncate());
 
-  describe(`GET /bookmarks`, () => {
-    context(`No bookmarks in 'bookmarks' table`, () => {
-      it(`responds with 200 and an empty list`, () => {
+  describe('GET /bookmarks', () => {
+    context('No bookmarks in "bookmarks" table', () => {
+      it('responds with 200 and an empty list', () => {
         return supertest(app)
           .get('/bookmarks')
-          .set({ "Authorization": `Bearer ${process.env.API_TOKEN}` })
+          .set({ 'Authorization': `Bearer ${process.env.API_TOKEN}` })
           .expect(200, []);
       });
     });
-    context(`Bookmarks exist in 'bookmarks' table`, () => {
+    context('Bookmarks exist in "bookmarks" table', () => {
       const testBookmarks = makeBookmarksArray();
 
       beforeEach('insert bookmarks', () => {
@@ -42,24 +42,24 @@ describe('Bookmarks Endpoints', function() {
       it('responds with 200 and all of the bookmarks', () => {
         return supertest(app)
           .get('/bookmarks')
-          .set({ "Authorization": `Bearer ${process.env.API_TOKEN}` })
+          .set({ 'Authorization': `Bearer ${process.env.API_TOKEN}` })
           .expect(200, testBookmarks);
       });
     });
   });
 
-  describe(`GET '/bookmarks/:bookmark_id'`, () => {
-    context(`No bookmarks in 'bookmarks' table`, () => {
-      it(`responds with 404`, () => {
+  describe('GET "/bookmarks/:bookmark_id"', () => {
+    context('No bookmarks in "bookmarks" table', () => {
+      it('responds with 404', () => {
         const bookmarkId = 987654;
         return supertest(app)
           .get(`/bookmarks/${bookmarkId}`)
-          .set({ "Authorization": `Bearer ${process.env.API_TOKEN}` })
-          .expect(404, { error: { message: `Bookmark does not exist`} });
+          .set({ 'Authorization': `Bearer ${process.env.API_TOKEN}` })
+          .expect(404, { error: { message: 'Bookmark does not exist'} });
       });
     });
 
-    context(`Bookmarks exist in 'bookmarks' table`, () => {
+    context('Bookmarks exist in "bookmarks" table', () => {
       const testBookmarks = makeBookmarksArray();
 
       beforeEach('insert bookmarks', () => {
@@ -74,7 +74,7 @@ describe('Bookmarks Endpoints', function() {
 
         return supertest(app)
           .get(`/bookmarks/${bookmarkId}`)
-          .set({ "Authorization": `Bearer ${process.env.API_TOKEN}` })
+          .set({ 'Authorization': `Bearer ${process.env.API_TOKEN}` })
           .expect(200, expectedBookmark);
       });
     });

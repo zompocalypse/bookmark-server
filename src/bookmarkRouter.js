@@ -69,7 +69,7 @@ bookmarksRouter
       .then(bookmark => {
         if(!bookmark) {
           return res.status(404).json({
-            error: { message: `Bookmark does not exist` }
+            error: { message: 'Bookmark does not exist' }
           });
         }
         res.json(bookmark);

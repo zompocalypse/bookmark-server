@@ -18,7 +18,7 @@ app.use(cors());
 app.use(morgan(morganOption));
 app.use(helmet());
 app.use(validateBearerToken);
-app.use('/bookmarks', bookmarksRouter);
+app.use('/api/bookmarks', bookmarksRouter);
 
 app.get('/', (req, res) => {
   res.send('Use the /bookmarks endpoint');
